@@ -21,10 +21,16 @@
                         {{ __('Products') }}
                     </x-nav-link>
                 </div>
-            
+
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="url('/orders')" :active="request()->routeIs('products')">
+                    <x-nav-link :href="url('/orders')" :active="request()->routeIs('orders')">
                         {{ __('Orders') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="url('/users')" :active="request()->routeIs('users')">
+                        {{ __('users') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -38,9 +44,10 @@
                         <button
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div class="relative">
-                                <img class="object-cover w-10 h-10 rounded-full ring ring-gray-300 "
-                                    src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=4&w=880&h=880&q=100"
-                                    alt="">
+
+                                <img class="object-cover w-10 h-10 rounded-full ring ring-gray-300"
+                                    src="{{ asset('usersImg/' . Auth::user()->image) }}" alt="User Image">
+
                                 <span
                                     class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 ring-1 ring-white"></span>
                             </div>
@@ -49,12 +56,10 @@
                     </x-slot>
 
                     <x-slot name="content">
-
-
-                        <div 
+                        <div
                             class="flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform">
                             <div class="mx-1">
-                                <h1 class="text-sm font-semibold text-gray-700 "> 
+                                <h1 class="text-sm font-semibold text-gray-700 ">
                                     {{ Auth::user()->name }}
                                 </h1>
                                 <p class="text-sm text-gray-500 ">{{ Auth::user()->email }}</p>
@@ -130,4 +135,3 @@
         </div>
     </div>
 </nav>
-

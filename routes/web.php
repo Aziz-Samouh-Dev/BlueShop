@@ -31,6 +31,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('/dashboard', AdminController::class);
     Route::resource('/products', ProductController::class);
     Route::resource('/orders', OrderController::class);
+    Route::resource('/users', UserController::class);
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {

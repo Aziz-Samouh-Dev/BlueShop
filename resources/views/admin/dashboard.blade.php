@@ -324,7 +324,7 @@
                                                         <!-- Avatar with inset shadow -->
                                                         <div class="relative hidden w-9 h-9 mr-3 rounded-full md:block">
                                                             <img class="object-cover w-full h-full rounded-full"
-                                                                src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                                                                src="{{ asset('usersImg/' . $user->image) }}"
                                                                 alt="" loading="lazy" />
                                                             <div class="absolute inset-0 rounded-full shadow-inner"
                                                                 aria-hidden="true"></div>
@@ -335,7 +335,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="px-4 py-3 text-sm">
-                                                    MA
+                                                    {{ $user->country }}
                                                 </td>
                                                 <td class="px-4 py-3 text-sm">
                                                     {{ $user->created_at->format('d/m/Y') }}

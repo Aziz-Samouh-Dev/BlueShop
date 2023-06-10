@@ -54,6 +54,9 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->image = 'imageuser.jpg'; 
+        $user->save();
+
         event(new Registered($user));
 
         Auth::login($user);

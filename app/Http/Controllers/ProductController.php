@@ -33,50 +33,6 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'photos.*' => ['required', 'image', function ($attribute, $value, $fail) use ($request) {
-    //             if (count($request->file('photos')) > 4) {
-    //                 $fail('You can upload a maximum of 4 images.');
-    //             }
-    //         }],
-    //         'name' => 'required|string|max:250',
-    //         'category' => 'required|string|max:250',
-    //         'quantity' => 'required|integer',
-    //         'price' => 'required|numeric',
-    //         'description' => 'required|string|max:500',
-    //     ]);
-
-    //     $product = new Product;
-    //     $product->name = $request->name;
-    //     $product->category = $request->category;
-    //     $product->quantity = $request->quantity;
-    //     $product->price = $request->price;
-    //     $product->description = $request->description;
-    //     $product->save();
-
-    //     $count = 0;
-    //     if ($request->hasFile('photos')) {
-    //         $photos = $request->file('photos');
-    //         foreach ($photos as $photo) {
-    //             if ($count < 4) {
-    //                 $imageName = time() . '_' . $photo->getClientOriginalName();
-    //                 $photo->move(public_path('images'), $imageName);
-
-    //                 $image = new Image;
-    //                 $image->product_id = $product->id;
-    //                 $image->filename = $imageName;
-    //                 $image->save();
-
-    //                 $count++;
-    //             }
-    //         }
-    //     }
-
-    //     return redirect()->route('products.index')->withErrors($validatedData);
-    // }
-
 
     public function store(Request $request)
     {
