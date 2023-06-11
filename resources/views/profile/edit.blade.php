@@ -61,7 +61,7 @@
 
                         <div class="max-w-xl">
                             <div class="flex items-center justify-center w-full">
-                                <label for="dropzone-file"
+                                <label for="image"
                                     class="flex flex-col items-center justify-center w-full h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 ">
                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                         <svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none"
@@ -81,13 +81,9 @@
                                             SVG, PNG, JPG or GIF (MAX.800x400px)
                                         </p>
                                     </div>
-                                    <input id="dropzone-file" type="file" class="hidden" />
+                                    <input id="image" type="file" id="image" name="image" class="hidden" />
                                 </label>
                             </div>
-                            {{-- <div>
-                                <input type="file" id="image" name="image"
-                                    class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-smfile:font-semibold file:bg-violet-50  file:text-violet-700 hover:file:bg-violet-100" />
-                            </div> --}}
                         </div>
 
                         <div class="flex items-center gap-4">

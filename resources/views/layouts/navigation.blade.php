@@ -10,37 +10,47 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="url('/dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="url('/products')" :active="request()->routeIs('products')">
-                        {{ __('Products') }}
-                    </x-nav-link>
-                </div>
+                @if (Auth::user('role', 'admin'))
+                    <!-- Navigation Links -->
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="url('/dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="url('/categorys')" :active="request()->routeIs('categorys')">
+                            {{ __('Categorys') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="url('/products')" :active="request()->routeIs('products')">
+                            {{ __('Products') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="url('/users')" :active="request()->routeIs('users')">
+                            {{ __('users') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="url('/orders')" :active="request()->routeIs('orders')">
+                            {{ __('Orders') }}
+                        </x-nav-link>
+                    </div>
+                @elseif (Auth::user('role', 'user'))
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="url('/orders')" :active="request()->routeIs('orders')">
+                            {{ __('Orders') }}
+                        </x-nav-link>
+                    </div>
+                @endif
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="url('/orders')" :active="request()->routeIs('orders')">
-                        {{ __('Orders') }}
-                    </x-nav-link>
-                </div>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="url('/users')" :active="request()->routeIs('users')">
-                        {{ __('users') }}
-                    </x-nav-link>
-                </div>
             </div>
 
-
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <div class="hidden sm:flex sm:items-center sm:ml-6"">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-
                         <button
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div class="relative">
@@ -54,7 +64,6 @@
 
                         </button>
                     </x-slot>
-
                     <x-slot name="content">
                         <div
                             class="flex items-center p-3 -mt-2 text-sm text-gray-600 transition-colors duration-300 transform">
@@ -69,7 +78,14 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('home')">
+                            {{ __('Home') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('dashboard.index')">
+                            {{ __('Dashboard') }}
+                        </x-dropdown-link>
 
+                        <hr>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -82,6 +98,8 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+
+
             </div>
 
             <!-- Hamburger -->
