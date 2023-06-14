@@ -13,7 +13,7 @@
                 class="py-3 px-5 overflow-hidden bg-white shadow-lg rounded-lg w-full">
                 @csrf
 
-                <div>
+                <div class="p-4">
                     @if ($errors->any())
                         <div id="alert-2" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50" role="alert">
                             <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -58,7 +58,7 @@
                 <div class="grid gap-6 my-6 md:grid-cols-1">
                     <div>
                         <label for="photos" class="block mb-2 text-sm font-medium text-gray-900">
-                            Photos (up to 4 images)
+                            Photos (up to 6 images)
                         </label>
                         <input type="file" id="photos" name="photos[]" multiple
                             class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-smfile:font-semibold file:bg-violet-50  file:text-violet-700 hover:file:bg-violet-100" />
@@ -83,9 +83,13 @@
                             <label for="category" class="block mb-2 text-sm font-medium text-gray-900 ">
                                 Category
                             </label>
-                            <input
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                type="text" id="category" name="category" value="{{ old('category') }}">
+                            <select value="{{ old('category') }}" id="category" name="category"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="" hidden hidden>select category ...</option>
+                                @foreach ($categorys as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label for="price" class="block mb-2 text-sm font-medium text-gray-900 ">
@@ -137,7 +141,7 @@
                     fileInput.addEventListener("change", function() {
                         imagePreview.innerHTML = ""; // Clear previous previews
 
-                        const files = Array.from(fileInput.files).slice(0, 4); // Get up to 4 selected files
+                        const files = Array.from(fileInput.files).slice(0, 6); // Get up to 4 selected files
 
                         files.forEach(function(file) {
                             const reader = new FileReader();

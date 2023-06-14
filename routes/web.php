@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +21,17 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+
+Route::resource('/', HomeController::class);
+Route::resource('/home', HomeController::class);
+
+
+Route::get('/product', [HomeController::class, 'products'])->name('pro');
+Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/product/{product}/checkout', [ProductController::class, 'checkout'])->name('checkout');
+Route::resource('/payment', PaymentController::class)->middleware(['auth', 'verified']);
+Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+
 
 
 Route::get('/profile', [ProfileController::class, 'edit'])->middleware(['auth', 'verified'])->name('profile.edit');
@@ -31,13 +41,15 @@ Route::delete('/profile', [ProfileController::class, 'destroy'])->middleware(['a
 Route::middleware(['auth','role:admin'])->group(function () {
     Route::resource('/dashboard', AdminController::class);
     Route::resource('/products', ProductController::class);
-    Route::resource('/orders', OrderController::class);
-    Route::resource('/users', UserController::class);
     Route::resource('/categorys', CategoryController::class);
 });
 
 Route::middleware(['auth', 'role:user'])->group(function () {
-    // Route::resource('/home', UserController::class);
 });
+Route::resource('/users', UserController::class)->middleware(['auth', 'verified']);
+
+Route::resource('/orders', OrderController::class)->middleware(['auth', 'verified']);
+
+Route::post('/cart/add/{productId}', 'CartController@addToCart')->name('cart.add');
 
 require __DIR__ . '/auth.php';

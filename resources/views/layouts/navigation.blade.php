@@ -5,50 +5,52 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ url('/dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ url('/dashboard') }}" class="flex items-center h-10">
+                        <img src="{{ asset('logo2.png') }}" class="h-10" alt="">
                     </a>
                 </div>
 
-                @if (Auth::user('role', 'admin'))
-                    <!-- Navigation Links -->
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="url('/dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="url('/categorys')" :active="request()->routeIs('categorys')">
-                            {{ __('Categorys') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="url('/products')" :active="request()->routeIs('products')">
-                            {{ __('Products') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="url('/users')" :active="request()->routeIs('users')">
-                            {{ __('users') }}
-                        </x-nav-link>
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="url('/orders')" :active="request()->routeIs('orders')">
-                            {{ __('Orders') }}
-                        </x-nav-link>
-                    </div>
-                @elseif (Auth::user('role', 'user'))
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="url('/orders')" :active="request()->routeIs('orders')">
-                            {{ __('Orders') }}
-                        </x-nav-link>
-                    </div>
-                @endif
+
+                @auth
+                    @if (Auth::user()->role === 'user')
+                        <div class="space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="url('/orders')" :active="request()->routeIs('orders')">
+                                {{ __('Orders') }}
+                            </x-nav-link>
+                        </div>
+                    @else
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="url('/dashboard')" :active="request()->routeIs('dashboard')">
+                                {{ __('Dashboard') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="url('/categorys')" :active="request()->routeIs('categorys')">
+                                {{ __('Categorys') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="url('/products')" :active="request()->routeIs('products')">
+                                {{ __('Products') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="url('/users')" :active="request()->routeIs('users')">
+                                {{ __('users') }}
+                            </x-nav-link>
+                        </div>
+                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <x-nav-link :href="url('/orders')" :active="request()->routeIs('orders')">
+                                {{ __('Orders') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endauth
 
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6"">
+            <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -78,12 +80,22 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('home')">
+                        <x-dropdown-link :href="route('home.index')">
                             {{ __('Home') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('dashboard.index')">
-                            {{ __('Dashboard') }}
-                        </x-dropdown-link>
+
+                        @auth
+                            @if (Auth::user()->role === 'user')
+                                <x-dropdown-link :href="route('orders.index')">
+                                    {{ __('Orders') }}
+                                    </x-nav-link>
+                                @else
+                                    <x-dropdown-link :href="route('dashboard.index')">
+
+                                        {{ __('Dashboard') }}
+                                    </x-dropdown-link>
+                            @endif
+                        @endauth
 
                         <hr>
                         <!-- Authentication -->
@@ -137,6 +149,20 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+
+
+                @auth
+                    @if (Auth::user()->role === 'user')
+                        <x-dropdown-link :href="route('orders.index')">
+                            {{ __('Orders') }}
+                            </x-nav-link>
+                        @else
+                            <x-dropdown-link :href="route('dashboard.index')">
+
+                                {{ __('Dashboard') }}
+                            </x-dropdown-link>
+                    @endif
+                @endauth
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

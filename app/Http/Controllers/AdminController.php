@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\User;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -14,9 +15,11 @@ class AdminController extends Controller
     public function index()
     {
         //
+        $orders = Order::all();
+
         $products = Product::all();
         $users = User::all();
-        return view('admin.dashboard' , compact('users' , 'products'));
+        return view('admin.dashboard' , compact('users' , 'products', 'orders'));
     }
 
     /**

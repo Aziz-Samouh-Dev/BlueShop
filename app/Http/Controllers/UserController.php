@@ -62,31 +62,6 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-
-    // public function update(Request $request, string $id): RedirectResponse
-    // {
-    //     $request->validate([
-    //         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
-    //     ]);
-
-    //     $user = User::findOrFail($id);
-
-    //     if ($request->hasFile('image')) {
-    //         $image = $request->file('image');
-    //         $imageName = time() . '_' . $image->getClientOriginalName();
-
-    //         $destinationPath = public_path('usersImg');
-    //         $image->move($destinationPath, $imageName);
-
-
-    //         $user->image = $imageName;
-    //     }
-
-    //     $user->save();
-
-    //     return redirect()->route('profile.edit')->with('status', 'profile-updated');
-    // }
-
     public function update(Request $request, string $id): RedirectResponse
     {
         $request->validate([

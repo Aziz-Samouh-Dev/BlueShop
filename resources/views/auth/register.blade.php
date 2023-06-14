@@ -9,7 +9,7 @@
                 autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
-  
+
         <!-- Email Address -->
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
@@ -24,7 +24,7 @@
         <div class="mt-4">
 
             <x-input-label for="country" :value="__('country')" />
-          
+
             <select id="country" name="country" :value="old('country')" required autocomplete="country"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                 @foreach ($countrys as $country)
@@ -57,14 +57,17 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+    
 
             <x-primary-button class="ml-4">
                 {{ __('Register') }}
             </x-primary-button>
         </div>
     </form>
+    <div class="card pt-5 ">
+        <p class="text-center"> {{ __('Already registered?') }}
+
+            <a href="{{ route('login') }}" class="text-blue-400">{{ __('click here') }}</a>
+        </p>
+    </div>
 </x-guest-layout>

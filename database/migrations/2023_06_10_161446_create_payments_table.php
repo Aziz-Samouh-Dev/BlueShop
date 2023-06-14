@@ -9,17 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('order_id');
-            $table->decimal('amount', 8, 2);
+            $table->unsignedBigInteger('user_id');
+            $table->string('name_on_card');
+            $table->bigInteger('card_number');
+            $table->unsignedInteger('expiration_month');
+            $table->unsignedInteger('expiration_year');
+            $table->unsignedInteger('security_code');
             $table->timestamps();
-
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
+
 
     /**
      * Reverse the migrations.

@@ -21,13 +21,13 @@
                                 <div class="shrink-0 px-3">
                                     <div class="grid gap-2 grid-cols-1">
                                         <div class="product-image-main">
-                                            <img id="main-image" class=" object-cover rounded-lg"
-                                                style=" width: 350px; height: 350px; object-fit: cover;"
+                                            <img id="main-image" class=" object-cover rounded-lg w-full"
+                                                style=" height: 400px; object-fit: cover;"
                                                 src="{{ asset('images/' . $product->images[0]->filename) }}" alt=""
                                                 id="main-image">
                                         </div>
-                                        <div class="grid gap-2 grid-cols-4 justify-between">
-                                            @foreach ($product->images->take(4) as $image)
+                                        <div class="grid gap-2 grid-cols-6 justify-between">
+                                            @foreach ($product->images->take(6) as $image)
                                                 <img src="{{ asset('images/' . $image->filename) }}" alt=""
                                                     id="image-list"
                                                     class="w-20 h-20 object-cover rounded-lg cursor-pointer">
@@ -52,7 +52,7 @@
                                     Category
                                 </label>
                                 <p class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5">
-                                    {{ $product->category }}
+                                    {{ $product->category->name }}
                                 </p>
                             </div>
                             <div>

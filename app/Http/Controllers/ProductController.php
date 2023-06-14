@@ -6,6 +6,7 @@ use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\User;
 
 class ProductController extends Controller
@@ -13,10 +14,10 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         $users = User::where('role', 'user')->get();
-        $products = Product::orderBy('id', 'DESC')->paginate(10);
+        $products = Product::orderBy('id', 'DESC')->with('images')->paginate(10);
         return view('admin.product.index', compact('products', 'users'));
     }
 
@@ -27,7 +28,8 @@ class ProductController extends Controller
     public function create()
     {
         //
-        return view('admin.product.create');
+        $categorys = Category::all();
+        return view('admin.product.create', compact('categorys'));
     }
 
     /**
@@ -43,7 +45,7 @@ class ProductController extends Controller
                 function ($attribute, $value, $fail) use ($request) {
                     $files = $request->file('photos');
 
-                    if ($files && is_array($files) && count($files) > 4) {
+                    if ($files && is_array($files) && count($files) > 6) {
                         $fail('You can upload a maximum of 4 images.');
                     }
                 }
@@ -52,12 +54,12 @@ class ProductController extends Controller
             'category' => 'required|string|max:250',
             'quantity' => 'required|numeric',
             'price' => 'required|numeric',
-            'description' => 'required|string|max:500',
+            'description' => 'required|string',
         ]);
 
         $product = new Product;
         $product->name = $request->name;
-        $product->category = $request->category;
+        $product->category_id = $request->category;
         $product->quantity = $request->quantity;
         $product->price = $request->price;
         $product->description = $request->description;
@@ -67,7 +69,7 @@ class ProductController extends Controller
         if ($request->hasFile('photos')) {
             $photos = $request->file('photos');
             foreach ($photos as $photo) {
-                if ($count < 4) {
+                if ($count < 6) {
                     $imageName = time() . '_' . $photo->getClientOriginalName();
                     $photo->move(public_path('images'), $imageName);
 
@@ -92,62 +94,78 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('admin.product.show', compact('product'));
+        return view('show', compact( 'product'));
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Product $product)
     {
-        return view('admin.product.edit', compact('product'));
+        $categorys = Category::all();
+        $product->with('category');
+        return view('admin.product.edit', compact('product', 'categorys'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        // Validate the input
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'category' => 'required',
-            'quantity' => 'required|integer',
+        $request->validate([
+            'photos.*' => [
+                'nullable',
+                'image',
+                function ($attribute, $value, $fail) use ($request) {
+                    $files = $request->file('photos');
+
+                    if ($files && is_array($files) && count($files) > 6) {
+                        $fail('You can upload a maximum of 4 images.');
+                    }
+                }
+            ],
+            'name' => 'required|string|max:250',
+            'category' => 'required|string|max:250',
+            'quantity' => 'required|numeric',
             'price' => 'required|numeric',
-            'description' => 'required',
-            'photos.*' => ['nullable', 'image', 'max:2048'], // Add validation rules for photos
+            'description' => 'required|string',
         ]);
 
-        // Update the product
+        $product = Product::findOrFail($id);
         $product->name = $request->name;
-        $product->category = $request->category;
+        $product->category_id = $request->category;
         $product->quantity = $request->quantity;
         $product->price = $request->price;
         $product->description = $request->description;
-
-        // Delete old images
-        $product->images()->delete();
-
-        // Save the product
         $product->save();
 
-        // Handle the uploaded images
         if ($request->hasFile('photos')) {
+            // Delete old images
+            $product->images()->delete();
+
+            $count = 0;
             $photos = $request->file('photos');
-
             foreach ($photos as $photo) {
-                $imageName = time() . '_' . $photo->getClientOriginalName();
-                $photo->move(public_path('images'), $imageName);
+                if ($count < 6) {
+                    $imageName = time() . '_' . $photo->getClientOriginalName();
+                    $photo->move(public_path('images'), $imageName);
 
-                $image = new Image;
-                $image->product_id = $product->id;
-                $image->filename = $imageName;
-                $image->save();
+                    $image = new Image;
+                    $image->product_id = $product->id;
+                    $image->filename = $imageName;
+                    $image->save();
+
+                    $count++;
+                }
             }
         }
 
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
+        return redirect()->route('products.index')->withErrors(['success' => 'Product updated successfully.']);
     }
+
 
 
     /**
@@ -158,4 +176,14 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
+
+
+
+
+    public function checkout(Product $product)
+    {
+        return view('checkout', compact('product'));
+    }
+
+
 }

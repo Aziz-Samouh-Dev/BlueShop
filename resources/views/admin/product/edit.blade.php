@@ -18,7 +18,7 @@
 
                     <div>
                         <label for="photos" class="block mb-2 text-sm font-medium text-gray-900">
-                            Photos (up to 4 images)
+                            Photos (up to 6 images)
                         </label>
                         <div class="border p-4 grid justify-center items-center">
                             <div class=" grid grid-cols-1 gap-2 justify-center items-center">
@@ -35,7 +35,7 @@
                             fileInput.addEventListener("change", function() {
                                 imagePreview.innerHTML = ""; // Clear previous previews
 
-                                const files = Array.from(fileInput.files).slice(0, 4); // Get up to 4 selected files
+                                const files = Array.from(fileInput.files).slice(0, 6); // Get up to 4 selected files
 
                                 files.forEach(function(file) {
                                     const reader = new FileReader();
@@ -66,9 +66,16 @@
                             <label for="category" class="block mb-2 text-sm font-medium text-gray-900">
                                 Category
                             </label>
-                            <input
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                type="text" id="category" name="category" required value="{{ $product->category }}">
+                            <select id="category" name="category"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="" hidden hidden>select category ...</option>
+                                @foreach ($categorys as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ $category->id == $product->category_id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div>
                             <label for="price" class="block mb-2 text-sm font-medium text-gray-900">

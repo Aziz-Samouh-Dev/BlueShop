@@ -55,16 +55,18 @@
                                         <td class="px-4 py-3">
                                             <div class="flex items-center text-sm">
                                                 <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
+
                                                     <img class="object-cover w-full h-full rounded-full"
                                                         src="{{ asset('images/' . $product->images[0]->filename) }}"
                                                         alt="{{ $product->name }}" loading="lazy" />
+
                                                     <div class="absolute inset-0 rounded-full shadow-inner"
                                                         aria-hidden="true"></div>
                                                 </div>
                                                 <div>
                                                     <p class="font-semibold">{{ $product->name }}</p>
                                                     <p class="text-xs text-gray-600">
-                                                        {{ $product->category }}
+                                                        {{ $product->category->name }}
                                                     </p>
                                                 </div>
                                             </div>
